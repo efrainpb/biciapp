@@ -1,8 +1,5 @@
 # BiciAPP
 
-REST Api
-## About Laravel
-
 Un cliente, que distribuye accesorios para bicicleta, ha solicitado que otros proveedores pueden acceder a la información de los productos que se encuentran su sitio web. Por lo tanto, se nos ha pedido que desarrollemos el método que cualquiera pueda usar para consultar esta información.
 Los accesorios que maneja cuentan con las siguientes características:
 
@@ -43,12 +40,12 @@ o de lo contrario se tiene que crear un host virtual mediante nginx.
 
 El servidor de ejemplo se encuentra en Amazon, en el siguiente dominio.
 
-[a biciapp.muuyal.net](http://biciapp.muuyal.net)
+[biciapp.muuyal.net](http://biciapp.muuyal.net)
 
 También existe una vista de ejemplo donde se listan los productos, 
 se pueden actualizar, eliminar y crear.
 
-[a biciapp.muuyal.net/home](http://biciapp.muuyal.net/home)
+[biciapp.muuyal.net/home](http://biciapp.muuyal.net/home)
 
 
 
