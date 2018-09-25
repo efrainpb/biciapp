@@ -30,4 +30,14 @@ class BicycleAccessory extends Model
     {
         return $this->belongsTo(Producer::class,'producer_id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class,'accessory_id');
+    }
+
+    public function pdfs()
+    {
+        return $this->hasMany(Pdf::class,'accessory_id');
+    }
 }

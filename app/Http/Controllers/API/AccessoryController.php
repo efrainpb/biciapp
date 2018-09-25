@@ -21,7 +21,7 @@ class AccessoryController extends Controller
     {
         //
         try{
-            $accessories = BicycleAccessory::with(['category','country','producer'])->get();
+            $accessories = BicycleAccessory::with(['category','country','producer','images','pdfs'])->get();
             $catalogues['categories'] = Category::all();
             $catalogues['countries'] = Country::all();
             $catalogues['producers'] = Producer::all();
@@ -60,7 +60,7 @@ class AccessoryController extends Controller
             $accessory->producer_id = $request->producer_id;
             $accessory->save();
 
-            $accessory->load(['country','category','producer']);
+            $accessory->load(['country','category','producer','images','pdfs']);
             return response()->json(['code'=>200,'status'=>'ok','message'=>'Accessory Created!','data'=>$accessory]);
         }catch (\Exception $exception){
             return response()->json(['code'=>400,'error'=>$exception->getMessage()],400);
@@ -103,7 +103,7 @@ class AccessoryController extends Controller
             $accessory->producer_id = $request->producer_id;
             $accessory->save();
 
-            $accessory->load(['country','category','producer']);
+            $accessory->load(['country','category','producer','images','pdfs']);
             return response()->json(['code'=>200,'status'=>'ok','message'=>'Accessory Updated!','data'=>$accessory]);
         }catch (\Exception $exception){
             return response()->json(['code'=>400,'error'=>$exception->getMessage()],400);

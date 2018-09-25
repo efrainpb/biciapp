@@ -29,6 +29,22 @@ class CreateTableAccesories extends Migration
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('producer_id')->references('id')->on('producers');
         });
+
+        Schema::create('images',function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('url');
+            $table->integer('accessory_id')->unsigned();
+
+            $table->foreign('accessory_id')->references('id')->on('bicycle_accessories');
+        });
+
+        Schema::create('pdfs',function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('url');
+            $table->integer('accessory_id')->unsigned();
+
+            $table->foreign('accessory_id')->references('id')->on('bicycle_accessories');
+        });
     }
 
     /**
@@ -39,6 +55,8 @@ class CreateTableAccesories extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('pdfs');
+        Schema::dropIfExists('images');
         Schema::dropIfExists('bicycle_accessories');
     }
 }
