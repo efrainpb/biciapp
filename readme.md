@@ -158,4 +158,4 @@ Si bien el proyecto cumple con la función aquí hay una lista de las mejoras qu
 - Tener un bucket dedicado para archivos (imágenes, pdfs)
 - Cada accesorio podría tener una carpeta en el bucket (s3) donde se guarden las imágenes y pdfs
 - Se podrían eliminar las tablas en la BD de los archivos (images, pdfs) y se podría agregar en el modelo un append para traer los archivos directo del bucket
-- Terminar la vista para cargar, leer, eliminar y actualizar items
+- Se podría mejorar la el ui/ux para cargar directamente pdf e imágenes.

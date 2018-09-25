@@ -1743,7 +1743,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            alert: {
+            alertdialog: {
                 dismissSecs: 5,
                 dismissCountDown: 0,
                 showDismissibleAlert: false,
@@ -1788,21 +1788,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.modalaccesory.show();
         },
         saveItem: function saveItem() {
+            var self = this;
             if (this.item.id === 0) axios.post('api/accessory', this.item).then(function (response) {
-                this.alert.dismissCountDown = 5;
-                this.$refs.modalaccesory.hide();
-                this.item = {
+                self.alertdialog.dismissCountDown = 5;
+                self.$refs.modalaccesory.hide();
+                self.item = {
                     sku: '',
                     description: '',
                     category_id: '',
                     producer_id: '',
                     country_id: ''
                 };
-                this.accessories.push(response.data.data);
+                self.accessories.push(response.data.data);
+                self.alertdialog.message = response.data.message;
             });else axios.put('api/accessory/' + this.item.id, this.item).then(function (response) {
-                this.alert.dismissCountDown = 5;
-                this.$refs.modalaccesory.hide();
-                this.item = {
+                self.alertdialog.dismissCountDown = 5;
+                self.alertdialog.message = response.data.message;
+                self.$refs.modalaccesory.hide();
+                self.item = {
                     sku: '',
                     description: '',
                     category_id: '',
@@ -1812,7 +1815,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         countDownChanged: function countDownChanged(dismissCountDown) {
-            this.alert.dismissCountDown = dismissCountDown;
+            this.alertdialog.dismissCountDown = dismissCountDown;
         },
 
         updateItem: function updateItem(item) {
@@ -1820,11 +1823,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.item = item;
         },
 
-        deleteItem: function deleteItem(item, index) {
+        deleteItem: function deleteItem(item) {
+            var self = this;
             axios.delete('api/accessory/' + item.id).then(function (response) {
-                this.alert.dismissCountDown = 5;
-                this.$refs.modalaccesory.hide();
-                this.accessories.splice(index, 1);
+                self.alertdialog.dismissCountDown = 5;
+                self.alertdialog.message = response.data.message;
+                self.$refs.modalaccesory.hide();
+
+                var i = self.accessories.map(function (item) {
+                    return item.id;
+                }).indexOf(item.id);
+                self.accessories.splice(i, 1);
             });
         }
     }
@@ -53680,14 +53689,14 @@ var render = function() {
                   "b-alert",
                   {
                     attrs: {
-                      show: _vm.alert.dismissCountDown,
+                      show: _vm.alertdialog.dismissCountDown,
                       dismissible: "",
                       fade: "",
-                      variant: _vm.alert.variant
+                      variant: _vm.alertdialog.variant
                     },
                     on: {
                       dismissed: function($event) {
-                        _vm.alert.dismissCountDown = 0
+                        _vm.alertdialog.dismissCountDown = 0
                       },
                       "dismiss-count-down": _vm.countDownChanged
                     }
@@ -53695,9 +53704,9 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(_vm.alert.message) +
+                        _vm._s(_vm.alertdialog.message) +
                         " " +
-                        _vm._s(_vm.alert.dismissCountDown) +
+                        _vm._s(_vm.alertdialog.dismissCountDown) +
                         " seconds...\n                    "
                     )
                   ]
@@ -53753,7 +53762,7 @@ var render = function() {
                               staticClass: "btn btn-sm btn-danger",
                               on: {
                                 click: function($event) {
-                                  _vm.deleteItem(accessory, index)
+                                  _vm.deleteItem(accessory)
                                 }
                               }
                             },

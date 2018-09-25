@@ -5,13 +5,13 @@
                 <div class="card card-default">
                     <div class="card-header">BiciApp</div>
                     <div class="card-body">
-                        <b-alert :show="alert.dismissCountDown"
+                        <b-alert :show="alertdialog.dismissCountDown"
                                  dismissible
                                  fade
-                                 :variant="alert.variant"
-                                 @dismissed="alert.dismissCountDown=0"
+                                 :variant="alertdialog.variant"
+                                 @dismissed="alertdialog.dismissCountDown=0"
                                  @dismiss-count-down="countDownChanged">
-                            {{alert.message}} {{alert.dismissCountDown}} seconds...
+                            {{alertdialog.message}} {{alertdialog.dismissCountDown}} seconds...
                         </b-alert>
                         <button class="btn btn-success float-lg-right" v-on:click="modalItem()">Create New</button>
                         <table class="table">
@@ -36,7 +36,7 @@
                                         <button class="btn btn-sm btn-info" v-on:click="updateItem(accessory)">
                                             <i class="far fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-danger"  v-on:click="deleteItem(accessory,index)">
+                                        <button class="btn btn-sm btn-danger"  v-on:click="deleteItem(accessory)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
@@ -103,7 +103,7 @@
     export default {
         data() {
             return {
-                alert:{
+                alertdialog:{
                     dismissSecs: 5,
                     dismissCountDown: 0,
                     showDismissibleAlert: false,
@@ -148,24 +148,27 @@
                 this.$refs.modalaccesory.show()
             },
             saveItem: function() {
+                var self = this;
                 if(this.item.id === 0)
                     axios.post('api/accessory',this.item).then(function (response) {
-                        this.alert.dismissCountDown = 5;
-                        this.$refs.modalaccesory.hide();
-                        this.item={
+                        self.alertdialog.dismissCountDown = 5;
+                        self.$refs.modalaccesory.hide();
+                        self.item={
                             sku:'',
                             description:'',
                             category_id:'',
                             producer_id:'',
                             country_id:''
                         };
-                        this.accessories.push(response.data.data);
+                        self.accessories.push(response.data.data);
+                        self.alertdialog.message = response.data.message;
                     });
                 else
                     axios.put('api/accessory/'+this.item.id,this.item).then(function (response) {
-                        this.alert.dismissCountDown = 5;
-                        this.$refs.modalaccesory.hide();
-                        this.item={
+                        self.alertdialog.dismissCountDown = 5;
+                        self.alertdialog.message = response.data.message;
+                        self.$refs.modalaccesory.hide();
+                        self.item={
                             sku:'',
                             description:'',
                             category_id:'',
@@ -175,18 +178,22 @@
                     });
             },
             countDownChanged (dismissCountDown) {
-                this.alert.dismissCountDown = dismissCountDown
+                this.alertdialog.dismissCountDown = dismissCountDown
             },
             updateItem: function(item){
                 this.$refs.modalaccesory.show()
                 this.item = item;
             },
 
-            deleteItem: function(item,index){
+            deleteItem: function(item){
+                var self = this;
                 axios.delete('api/accessory/'+item.id).then(function (response) {
-                    this.alert.dismissCountDown = 5;
-                    this.$refs.modalaccesory.hide();
-                    this.accessories.splice(index, 1);
+                    self.alertdialog.dismissCountDown = 5;
+                    self.alertdialog.message = response.data.message;
+                    self.$refs.modalaccesory.hide();
+
+                    let i = self.accessories.map(item => item.id).indexOf(item.id);
+                    self.accessories.splice(i, 1);
                 });
             }
         }
