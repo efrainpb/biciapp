@@ -24,10 +24,13 @@ Para el siguiente ejercicio se usaron las siguientes tecnologías
 - NginX
 - VueJS
 
-Para instalar el proyecto se deben ejecutar los siguientes comandos: 
+Para instalar el proyecto primero es necesario copiar el archivo .env.example y nombrarlo .env. 
+En este archivo se deben de poner las variables de la base de datos a la que se va a conectar. 
 
 - composer install
 - php artisan migrate
 - yarn install
 - yarn run prod
+
+## REST API
 
