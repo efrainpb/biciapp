@@ -63,11 +63,13 @@ se pueden actualizar, eliminar y crear.
 
 Response (Example)
 ```json
-    "code": 200,
-    "status": "ok",
-    "message": "All Accessories",
-    "data": {...},
-    "catalogues": {...}
+    {
+        "code": 200,
+        "status": "ok",
+        "message": "All Accessories",
+        "data": {...},
+        "catalogues": {...}
+    }
 ```
 
 Send: 
@@ -149,6 +151,7 @@ Response (Example)
         "code": 200,
         "status": "ok",
         "message": "Accessory Deleted!"
+    }
 ```
 
 ## Mejoras
